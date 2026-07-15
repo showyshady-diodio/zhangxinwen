@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZXW · AI Commerce Strategist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <script>
+    tailwind = {
+      config: {
+        theme: {
+          extend: {
+            fontFamily: {
+              heading: ["'Instrument Serif'", "serif"],
+              body: ["'Barlow'", "sans-serif"],
+            },
+          },
+        },
+      },
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style id="theme-vars">
+    :root {
+      color-scheme: dark;
+      --page-bg: #000000;
+      --page-fg: #ffffff;
+      --text-soft: rgba(255, 255, 255, 0.8);
+      --text-mid: rgba(255, 255, 255, 0.9);
+      --glass-fill: rgba(255, 255, 255, 0.01);
+      --glass-stroke-top: rgba(255, 255, 255, 0.45);
+      --glass-stroke-mid: rgba(255, 255, 255, 0.15);
+      --glass-stroke-strong-top: rgba(255, 255, 255, 0.5);
+      --glass-stroke-strong-mid: rgba(255, 255, 255, 0.2);
+    }
+
+    html,
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: "Barlow", sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .font-heading {
+      font-family: "Instrument Serif", serif;
+    }
+
+    .font-body {
+      font-family: "Barlow", sans-serif;
+    }
+
+    .liquid-glass,
+    .liquid-glass-strong {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background: rgba(255, 255, 255, 0.01);
+      background-blend-mode: luminosity;
+    }
+
+    .liquid-glass {
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .liquid-glass-strong {
+      backdrop-filter: blur(50px);
+      -webkit-backdrop-filter: blur(50px);
+      box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    }
+
+    .liquid-glass::before,
+    .liquid-glass-strong::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.4px;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .liquid-glass::before {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.45) 0%,
+        rgba(255, 255, 255, 0.15) 20%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0) 60%,
+        rgba(255, 255, 255, 0.15) 80%,
+        rgba(255, 255, 255, 0.45) 100%
+      );
+    }
+
+    .liquid-glass-strong::before {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0.2) 20%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0) 60%,
+        rgba(255, 255, 255, 0.2) 80%,
+        rgba(255, 255, 255, 0.5) 100%
+      );
+    }
+
+    .video-fade {
+      opacity: 0;
+      transition: opacity 180ms linear;
+    }
+
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.08), transparent 34%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.44) 52%, rgba(0, 0, 0, 0.92) 100%);
+    }
+
+    .video-overlay-soft {
+      background:
+        radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.06), transparent 28%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.62) 50%, rgba(0, 0, 0, 0.9) 100%);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      filter: blur(10px);
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s ease,
+        filter 0.8s ease;
+      transition-delay: var(--delay, 0ms);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .blur-text {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 0.1em;
+    }
+
+    .blur-word {
+      display: inline-block;
+      margin-right: 0.28em;
+      opacity: 0;
+      transform: translateY(50px);
+      filter: blur(10px);
+      transition:
+        opacity 0.7s ease,
+        transform 0.7s ease,
+        filter 0.7s ease;
+      transition-delay: calc(var(--word-index, 0) * 100ms);
+    }
+
+    .blur-text.is-visible .blur-word {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .headline-balance {
+      text-wrap: balance;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    .cap-card {
+      min-height: 360px;
+    }
+
+    .trust-marquee {
+      mask-image: linear-gradient(90deg, transparent 0%, #fff 10%, #fff 90%, transparent 100%);
+    }
+
+    @media (max-width: 767px) {
+      .cap-card {
+        min-height: 320px;
+      }
+    }
+
+    /* ── AI atmosphere layer ── */
+    .ai-particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 1px, transparent 1px),
+        radial-gradient(circle at 70% 65%, rgba(255,255,255,0.03) 1px, transparent 1px),
+        radial-gradient(circle at 45% 80%, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 80px 80px, 120px 120px, 100px 100px;
+    }
+    .ai-lines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.12;
+      background:
+        linear-gradient(90deg, transparent 49.8%, rgba(255,255,255,0.06) 50%, transparent 50.2%) 0 0 / 240px 100%,
+        linear-gradient(0deg, transparent 49.8%, rgba(255,255,255,0.04) 50%, transparent 50.2%) 0 0 / 100% 200px;
+    }
+    @keyframes drift-particles {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(2px, 3px); }
+      100% { transform: translate(0, 0); }
+    }
+    .ai-particles {
+      animation: drift-particles 20s ease-in-out infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .reveal,
+      .blur-word,
+      .video-fade {
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-black text-white font-body">
+  <div class="ai-particles"></div>
+  <div class="ai-lines"></div>
+  <main class="relative">
+    <section class="relative h-screen overflow-hidden bg-black">
+      <video
+        class="video-fade absolute left-1/2 top-0 z-0 h-[120%] w-[120%] -translate-x-1/2 object-cover object-top"
+        autoplay
+        muted
+        playsinline
+        preload="auto"
+        data-fading-video
+        data-sources='["https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260619_191346_9d19d66e-86a4-47f7-8dc6-712c1788c3b2.mp4"]'
+      ></video>
+      <div class="video-overlay"></div>
+
+      <div class="relative z-10 flex h-full flex-col">
+        <nav class="fixed left-0 right-0 top-4 z-50 flex items-center justify-between px-8 lg:px-16">
+          <div class="liquid-glass flex h-12 min-w-[4.5rem] items-center justify-center rounded-full px-3">
+            <span class="font-heading text-[1rem] italic tracking-[-0.12em] text-white">ZXW</span>
+          </div>
+
+          <div class="liquid-glass hidden items-center gap-1.5 rounded-full px-1.5 py-1.5 md:flex">
+            <a href="#hero" class="rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:text-white">Vision</a>
+            <a href="#capabilities" class="rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:text-white">Capabilities</a>
+            <a href="#experience" class="rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:text-white">Experience</a>
+            <a href="#capabilities" class="rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:text-white">Contact</a>
+            <button class="ml-1 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-white/90">
+              <span>Let's Connect</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7 17L17 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M7 7h10v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="h-12 w-12"></div>
+        </nav>
+
+        <div id="hero" class="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pt-24 text-center">
+          <div class="reveal liquid-glass inline-flex items-center gap-3 rounded-full px-2.5 py-2" style="--delay: 400ms">
+            <span class="rounded-full bg-white px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.24em] text-black">AI Commerce</span>
+            <span class="pr-2 text-[11px] font-light tracking-[0.22em] text-white/80 md:text-xs">Brand Growth · Creator Ecosystem · Global Commerce</span>
+          </div>
+
+          <div class="mt-6 max-w-5xl">
+            <h1
+              class="blur-text headline-balance font-heading text-6xl leading-[0.8] tracking-[-4px] text-white italic md:text-7xl lg:text-[5.5rem]"
+              data-blur-text="Building the future of AI-powered commerce."
+            ></h1>
+          </div>
+
+          <p class="reveal mt-3 max-w-2xl text-[13px] font-light leading-relaxed text-white/42 md:text-sm" style="--delay: 500ms">
+            用 AI 重构品牌增长与商业连接
+          </p>
+
+          <p class="reveal mt-4 max-w-2xl text-sm font-light leading-tight text-white md:text-base" style="--delay: 800ms">
+            Connecting AI, brands and creator ecosystems<br />to unlock the next generation of commerce.<br /><br />8 years in brand commercialization.<br />1000+ creator partnerships.<br />100M+ GMV experience.
+          </p>
+
+          <p class="reveal mt-2 max-w-2xl text-[11px] font-light leading-relaxed text-white/34 md:text-[12px]" style="--delay: 850ms">
+            8 年品牌商业化实战 · 1000+ 达人生态合作 · 累计操盘过亿 GMV
+          </p>
+
+          <div class="reveal mt-6 flex flex-wrap items-center justify-center gap-6" style="--delay: 1100ms">
+            <button class="liquid-glass-strong inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-white">
+              <span>Explore My Work</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7 17L17 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M7 7h10v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+
+            <button class="inline-flex items-center gap-2 text-sm font-medium text-white/90 transition hover:text-white">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <polygon points="6 4 20 12 6 20 6 4"></polygon>
+              </svg>
+              <span>AI Capabilities</span>
+            </button>
+          </div>
+
+          <div class="reveal mt-8 flex flex-wrap items-stretch justify-center gap-4" style="--delay: 1300ms">
+            <article class="liquid-glass w-[220px] rounded-[1.25rem] p-5 text-left">
+              <div class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/6">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.5"></circle>
+                  <path d="M12 7v5l3 2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <div class="mt-4 font-heading text-4xl italic leading-none tracking-[-1px] text-white">8 Years</div>
+              <p class="mt-1 text-xs font-medium text-white/70">Commercial Experience</p>
+              <p class="mt-1 text-[11px] font-light leading-snug text-white/60">Brand Growth &amp; Business Development</p>
+            </article>
+
+            <article class="liquid-glass w-[220px] rounded-[1.25rem] p-5 text-left">
+              <div class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/6">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="7" r="4" stroke="white" stroke-width="1.5"></circle>
+                  <path d="M1.5 21v-2a4 4 0 014-4h7a4 4 0 014 4v2" stroke="white" stroke-width="1.5" stroke-linecap="round"></path>
+                </svg>
+              </div>
+              <div class="mt-4 font-heading text-4xl italic leading-none tracking-[-1px] text-white">1000+</div>
+              <p class="mt-1 text-xs font-medium text-white/70">Creator Ecosystem</p>
+              <p class="mt-1 text-[11px] font-light leading-snug text-white/60">Creator Partnerships Built</p>
+            </article>
+
+            <article class="liquid-glass w-[220px] rounded-[1.25rem] p-5 text-left">
+              <div class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/6">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 2v20" stroke="white" stroke-width="1.5" stroke-linecap="round"></path>
+                  <path d="M17 5H9.5A3.5 3.5 0 005 8.5v0A3.5 3.5 0 009.5 12H14a3.5 3.5 0 013.5 3.5v0A3.5 3.5 0 0114 19H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <div class="mt-4 font-heading text-4xl italic leading-none tracking-[-1px] text-white">100M+</div>
+              <p class="mt-1 text-xs font-medium text-white/70">GMV Experience</p>
+              <p class="mt-1 text-[11px] font-light leading-snug text-white/60">Commerce Growth Impact</p>
+            </article>
+          </div>
+        </div>
+
+        <p class="reveal mt-6 text-[12px] font-light tracking-[0.06em] text-white/28 md:text-[13px]" style="--delay: 1350ms">
+          用AI连接品牌、达人与消费者，<br />探索下一代商业增长模式。
+        </p>
+
+        <div class="reveal flex flex-col items-center gap-4 px-4 pb-8" style="--delay: 1400ms">
+          <div class="liquid-glass rounded-full px-4 py-2 text-center text-[11px] font-light tracking-[0.22em] text-white/80 md:text-xs">
+            Connecting AI, Brands and Global Commerce
+          </div>
+          <div class="trust-marquee flex flex-wrap items-center justify-center gap-12 md:gap-16">
+            <span class="font-heading text-2xl italic tracking-tight text-white md:text-3xl">AI</span>
+            <span class="font-heading text-2xl italic tracking-tight text-white md:text-3xl">Brand</span>
+            <span class="font-heading text-2xl italic tracking-tight text-white md:text-3xl">Creator</span>
+            <span class="font-heading text-2xl italic tracking-tight text-white md:text-3xl">Commerce</span>
+            <span class="font-heading text-2xl italic tracking-tight text-white md:text-3xl">Global</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="capabilities" class="relative min-h-screen overflow-hidden bg-black">
+      <video
+        class="video-fade absolute inset-0 z-0 h-full w-full object-cover"
+        autoplay
+        muted
+        playsinline
+        preload="auto"
+        data-fading-video
+        data-sources='["https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_093722_ccfc7ebf-182f-419f-8a62-2dc02db7dd9d.mp4"]'
+      ></video>
+      <div class="video-overlay video-overlay-soft"></div>
+
+      <div class="relative z-10 flex min-h-screen flex-col px-8 pb-10 pt-24 md:px-16 lg:px-20">
+        <header class="mb-auto">
+          <div class="reveal mb-6 text-sm text-white/80" style="--delay: 150ms">// Capabilities · 核心能力</div>
+          <h2 class="reveal headline-balance font-heading text-6xl leading-[0.9] tracking-[-3px] text-white italic md:text-7xl lg:text-[6rem]" style="--delay: 250ms">
+            Business capabilities<br />in the AI era
+          </h2>
+          <p class="reveal mt-3 text-[13px] font-light leading-relaxed text-white/38 md:text-sm" style="--delay: 300ms">从 AI 商业化到品牌增长与全球商业</p>
+        </header>
+
+        <div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <article class="reveal liquid-glass cap-card flex flex-col rounded-[1.25rem] p-6" style="--delay: 350ms">
+            <div class="flex items-start justify-between gap-4">
+              <div class="liquid-glass flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.75rem]">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v8.56l3.76-3.76a1 1 0 0 1 1.41 0l2.09 2.09 3.67-4.03a1 1 0 0 1 1.48-.04L19 11.58V7H5Zm3.5 3.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path>
+                </svg>
+              </div>
+              <div class="flex flex-wrap justify-end gap-1.5">
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">AI Workflow</span>
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">AI Strategy</span>
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Automation</span>
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Enterprise AI</span>
+              </div>
+            </div>
+            <div class="flex-1"></div>
+            <div>
+              <h3 class="font-heading text-3xl leading-none tracking-[-1px] text-white italic md:text-4xl">AI Commercialization</h3>
+              <p class="mt-1 text-[11px] font-light text-white/32 md:text-[12px]">AI 商业化落地</p>
+              <p class="mt-4 max-w-[32ch] text-sm font-light leading-snug text-white/90">
+                Applying AI tools and workflows<br />to optimize business processes,<br />commercial strategy and growth execution.
+              </p>
+            </div>
+          </article>
+
+          <article class="reveal liquid-glass cap-card flex flex-col rounded-[1.25rem] p-6" style="--delay: 500ms">
+            <div class="flex items-start justify-between gap-4">
+              <div class="liquid-glass flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.75rem]">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm1 2v2h2V7H5Zm4 0v2h6V7H9Zm8 0v2h2V7h-2ZM5 11v2h2v-2H5Zm12 0v2h2v-2h-2ZM5 15v2h2v-2H5Zm4 0h6v2H9v-2Zm8 0h2v2h-2v-2Z"></path>
+                </svg>
+              </div>
+              <div class="flex flex-wrap justify-end gap-1.5">
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Brand Strategy</span>
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Creator Ecosystem</span>
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">E-commerce</span>
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Growth</span>
+              </div>
+            </div>
+            <div class="flex-1"></div>
+            <div>
+              <h3 class="font-heading text-3xl leading-none tracking-[-1px] text-white italic md:text-4xl">Brand &amp; Creator Growth</h3>
+              <p class="mt-1 text-[11px] font-light text-white/32 md:text-[12px]">品牌与达人增长</p>
+              <p class="mt-4 max-w-[32ch] text-sm font-light leading-snug text-white/90">
+                Building connections between brands,<br />creators and consumers through<br />commercial partnerships and ecosystem growth.
+              </p>
+            </div>
+          </article>
+
+          <article class="reveal liquid-glass cap-card flex flex-col rounded-[1.25rem] p-6" style="--delay: 650ms">
+            <div class="flex items-start justify-between gap-4">
+              <div class="liquid-glass flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.75rem]">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 2a7 7 0 0 1 4.95 11.95c-.77.77-1.28 1.52-1.55 2.3a1 1 0 0 1-.95.7h-4.9a1 1 0 0 1-.95-.7c-.27-.78-.78-1.53-1.55-2.3A7 7 0 0 1 12 2Zm-2.5 16h5a2.5 2.5 0 0 1-5 0Z"></path>
+                </svg>
+              </div>
+              <div class="flex flex-wrap justify-end gap-1.5">
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Cross-border</span>
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Southeast Asia</span>
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Market Insights</span>
+                <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Expansion</span>
+              </div>
+            </div>
+            <div class="flex-1"></div>
+            <div>
+              <h3 class="font-heading text-3xl leading-none tracking-[-1px] text-white italic md:text-4xl">Global Commerce</h3>
+              <p class="mt-1 text-[11px] font-light text-white/32 md:text-[12px]">全球商业探索</p>
+              <p class="mt-4 max-w-[32ch] text-sm font-light leading-snug text-white/90">
+                Exploring global business opportunities<br />through cross-border commerce<br />and international market insights.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="relative min-h-screen overflow-hidden bg-black">
+      <div class="relative z-10 flex min-h-screen flex-col px-8 pb-10 pt-24 md:px-16 lg:px-20">
+        <header class="mb-auto">
+          <div class="reveal mb-6 text-sm text-white/80" style="--delay: 150ms">// Selected Experience · 代表案例</div>
+          <h2 class="reveal headline-balance font-heading text-6xl leading-[0.9] tracking-[-3px] text-white italic md:text-7xl lg:text-[6rem]" style="--delay: 250ms">
+            Selected Experience
+          </h2>
+          <p class="reveal mt-1 text-[13px] font-light text-white/42 md:text-sm" style="--delay: 280ms">商业项目与增长实践</p>
+          <p class="reveal mt-3 text-[13px] font-light leading-relaxed text-white/38 md:text-sm" style="--delay: 300ms">Real-world commercial projects and growth cases.</p>
+        </header>
+
+        <div class="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-[1.4fr_1fr_1fr]">
+          <article class="reveal liquid-glass flex flex-col rounded-[1.25rem] p-6" style="--delay: 350ms; min-height: 460px;">
+            <div class="mb-3 font-heading text-[2.2rem] italic leading-none tracking-[-1px] text-white md:text-[2.6rem]">Luxury Brand Commerce Growth</div>
+            <div class="text-[11px] font-medium uppercase tracking-[0.18em] text-white/44">千万级品牌达播项目操盘</div>
+            <div class="mt-4 font-heading text-5xl italic leading-none tracking-[-1.5px] text-white">100M<span class="text-2xl text-white/50">+ RMB</span></div>
+            <div class="mt-1 text-[11px] font-light text-white/40">Cumulative GMV</div>
+            <div class="flex-1"></div>
+            <div class="mt-5 space-y-3">
+              <p class="text-sm font-light leading-snug text-white/82">
+                累计操盘品牌商业化项目，实现GMV超亿元规模。深度操盘国际品牌达播项目。
+              </p>
+              <div class="space-y-1.5">
+                <div class="flex items-center gap-2 text-[12px] font-light text-white/64"><span class="h-1 w-1 rounded-full bg-white/50"></span>川久保玲墨镜 — GMV 2000万元+</div>
+                <div class="flex items-center gap-2 text-[12px] font-light text-white/64"><span class="h-1 w-1 rounded-full bg-white/50"></span>Folli Follie 手表 — GMV 4000万元+</div>
+              </div>
+              <p class="text-[12px] font-light leading-relaxed text-white/46">
+                通过品牌商业化策略、达人生态整合、直播电商运营及项目交付，推动国际品牌实现规模化增长。
+              </p>
+            </div>
+          </article>
+
+          <article class="reveal liquid-glass flex flex-col rounded-[1.25rem] p-6" style="--delay: 500ms; min-height: 460px;">
+            <div class="mb-3 font-heading text-[2.2rem] italic leading-none tracking-[-1px] text-white md:text-[2.6rem]">Universal Beijing Resort</div>
+            <div class="text-[11px] font-medium uppercase tracking-[0.18em] text-white/44">Brand × Creator × Platform</div>
+            <div class="mt-1 text-[11px] font-light text-white/36">品牌 × 达人 × 平台生态项目</div>
+            <div class="flex-1"></div>
+            <p class="mt-5 text-sm font-light leading-snug text-white/82">
+              整合品牌方、平台、达人资源，推动大型商业项目落地。
+            </p>
+            <p class="mt-3 text-[12px] font-light leading-relaxed text-white/46">
+              参与大型文旅商业项目，连接品牌价值、内容生态与消费者增长。
+            </p>
+          </article>
+
+          <article class="reveal liquid-glass flex flex-col rounded-[1.25rem] p-6" style="--delay: 650ms; min-height: 460px;">
+            <div class="mb-3 font-heading text-[2.2rem] italic leading-none tracking-[-1px] text-white md:text-[2.6rem]">Kangol</div>
+            <div class="text-[11px] font-medium uppercase tracking-[0.18em] text-white/44">Multi-channel Brand Growth</div>
+            <div class="mt-1 text-[11px] font-light text-white/36">品牌全渠道商业化</div>
+            <div class="flex-1"></div>
+            <p class="mt-5 text-sm font-light leading-snug text-white/82">
+              围绕品牌增长，探索线上渠道、达人生态与商业合作模式，推动品牌在不同数字渠道中的商业增长。
+            </p>
+          </article>
+        </div>
+
+        <div class="mt-6">
+          <article class="reveal liquid-glass rounded-[1.25rem] p-8" style="--delay: 800ms; min-height: 340px;">
+            <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <div class="mb-2 font-heading text-[2.2rem] italic leading-none tracking-[-1px] text-white md:text-[2.6rem]">Luxury Brand Campaigns</div>
+                <div class="text-[11px] font-medium uppercase tracking-[0.18em] text-white/44">PINKO · Bulgari</div>
+                <div class="mt-1 text-[11px] font-light text-white/36">国际品牌商业合作项目</div>
+              </div>
+              <div class="max-w-[42ch]">
+                <p class="text-sm font-light leading-snug text-white/82">
+                  参与国际时尚与奢侈品牌商业推广，通过达人合作、内容生态与消费者连接，提升品牌商业价值。
+                </p>
+                <p class="mt-3 text-[12px] font-light leading-relaxed text-white/46">
+                  Worked with international fashion and luxury brands, connecting creators, consumers and commerce opportunities.
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const easeInOut = (t) => 0.5 - Math.cos(t * Math.PI) / 2;
+
+    function fadeElement(element, from, to, duration, onDone) {
+      const start = performance.now();
+      function frame(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const value = from + (to - from) * easeInOut(progress);
+        element.style.opacity = String(value);
+        if (progress < 1) {
+          requestAnimationFrame(frame);
+        } else if (onDone) {
+          onDone();
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function initFadingVideo(video) {
+      const sourceData = video.getAttribute("data-sources");
+      const sources = sourceData ? JSON.parse(sourceData) : [];
+      let currentIndex = 0;
+      let fadingOut = false;
+
+      const setSource = (src) => {
+        if (video.getAttribute("src") !== src) {
+          video.setAttribute("src", src);
+          video.load();
+        }
+      };
+
+      const playCurrent = () => {
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(() => {});
+        }
+      };
+
+      if (sources.length > 0) {
+        setSource(sources[currentIndex]);
+      }
+
+      video.style.opacity = "0";
+
+      video.addEventListener("loadeddata", () => {
+        fadingOut = false;
+        fadeElement(video, Number(video.style.opacity || 0), 1, 500);
+      });
+
+      video.addEventListener("timeupdate", () => {
+        if (!video.duration || Number.isNaN(video.duration) || fadingOut) return;
+        const remaining = video.duration - video.currentTime;
+        if (remaining <= 0.55) {
+          fadingOut = true;
+          fadeElement(video, Number(video.style.opacity || 1), 0, 550);
+        }
+      });
+
+      video.addEventListener("ended", () => {
+        if (sources.length <= 1) {
+          video.currentTime = 0;
+          playCurrent();
+          fadeElement(video, Number(video.style.opacity || 0), 1, 500);
+          fadingOut = false;
+          return;
+        }
+
+        currentIndex = (currentIndex + 1) % sources.length;
+        setSource(sources[currentIndex]);
+        playCurrent();
+        fadingOut = false;
+      });
+
+      playCurrent();
+    }
+
+    function initRevealAnimations() {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+    }
+
+    function initBlurText() {
+      const elements = document.querySelectorAll("[data-blur-text]");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      elements.forEach((element) => {
+        const text = element.getAttribute("data-blur-text") || "";
+        const words = text.split(" ").filter(Boolean);
+        element.innerHTML = "";
+        words.forEach((word, index) => {
+          const span = document.createElement("span");
+          span.className = "blur-word";
+          span.style.setProperty("--word-index", index);
+          span.textContent = word;
+          element.appendChild(span);
+        });
+        observer.observe(element);
+      });
+    }
+
+    document.querySelectorAll("[data-fading-video]").forEach(initFadingVideo);
+    initRevealAnimations();
+    initBlurText();
+  </script>
+</body>
+</html>
