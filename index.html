@@ -1,250 +1,95 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZXW · AI Commerce Strategist</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
-  <script>
-    tailwind = {
-      config: {
-        theme: {
-          extend: {
-            fontFamily: {
-              heading: ["'Instrument Serif'", "serif"],
-              body: ["'Barlow'", "sans-serif"],
-            },
-          },
-        },
-      },
-    };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <style id="theme-vars">
-    :root {
-      color-scheme: dark;
-      --page-bg: #000000;
-      --page-fg: #ffffff;
-      --text-soft: rgba(255, 255, 255, 0.8);
-      --text-mid: rgba(255, 255, 255, 0.9);
-      --glass-fill: rgba(255, 255, 255, 0.01);
-      --glass-stroke-top: rgba(255, 255, 255, 0.45);
-      --glass-stroke-mid: rgba(255, 255, 255, 0.15);
-      --glass-stroke-strong-top: rgba(255, 255, 255, 0.5);
-      --glass-stroke-strong-mid: rgba(255, 255, 255, 0.2);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZXW · AI Commerce Strategist</title>
+    <style id="theme-vars">
+/* ZXW AI Commerce — Brand CSS */
+:root {
+  color-scheme: dark;
+  --zxw-background: #000000;
+  --zxw-foreground: #ffffff;
+  --zxw-card: rgba(255, 255, 255, 0.01);
+  --zxw-primary: #ffffff;
+  --zxw-border: rgba(255, 255, 255, 0.15);
+  --zxw-muted: rgba(255, 255, 255, 0.6);
+  --zxw-radius-sm: 0.5rem;
+  --zxw-radius-md: 0.75rem;
+  --zxw-radius-lg: 1.25rem;
+  --page-bg: #000000;
+  --page-fg: #ffffff;
+  --text-soft: rgba(255, 255, 255, 0.8);
+  --text-mid: rgba(255, 255, 255, 0.9);
+  --glass-fill: rgba(255, 255, 255, 0.01);
+  --glass-stroke-top: rgba(255, 255, 255, 0.45);
+  --glass-stroke-mid: rgba(255, 255, 255, 0.15);
+  --glass-stroke-strong-top: rgba(255, 255, 255, 0.5);
+  --glass-stroke-strong-mid: rgba(255, 255, 255, 0.2);
+}
 
-    html,
-    body {
-      margin: 0;
-      background: #000;
-      color: #fff;
-      font-family: "Barlow", sans-serif;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-height: 100vh;
-    }
-
-    .font-heading {
-      font-family: "Instrument Serif", serif;
-    }
-
-    .font-body {
-      font-family: "Barlow", sans-serif;
-    }
-
-    .liquid-glass,
-    .liquid-glass-strong {
-      position: relative;
-      overflow: hidden;
-      isolation: isolate;
-      background: rgba(255, 255, 255, 0.01);
-      background-blend-mode: luminosity;
-    }
-
-    .liquid-glass {
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
-    }
-
-    .liquid-glass-strong {
-      backdrop-filter: blur(50px);
-      -webkit-backdrop-filter: blur(50px);
-      box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-    }
-
-    .liquid-glass::before,
-    .liquid-glass-strong::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      padding: 1.4px;
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-
-    .liquid-glass::before {
-      background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.45) 0%,
-        rgba(255, 255, 255, 0.15) 20%,
-        rgba(255, 255, 255, 0) 40%,
-        rgba(255, 255, 255, 0) 60%,
-        rgba(255, 255, 255, 0.15) 80%,
-        rgba(255, 255, 255, 0.45) 100%
-      );
-    }
-
-    .liquid-glass-strong::before {
-      background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.5) 0%,
-        rgba(255, 255, 255, 0.2) 20%,
-        rgba(255, 255, 255, 0) 40%,
-        rgba(255, 255, 255, 0) 60%,
-        rgba(255, 255, 255, 0.2) 80%,
-        rgba(255, 255, 255, 0.5) 100%
-      );
-    }
-
-    .video-fade {
-      opacity: 0;
-      transition: opacity 180ms linear;
-    }
-
-    .video-overlay {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      background:
-        radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.08), transparent 34%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.44) 52%, rgba(0, 0, 0, 0.92) 100%);
-    }
-
-    .video-overlay-soft {
-      background:
-        radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.06), transparent 28%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.62) 50%, rgba(0, 0, 0, 0.9) 100%);
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      filter: blur(10px);
-      transition:
-        opacity 0.8s ease,
-        transform 0.8s ease,
-        filter 0.8s ease;
-      transition-delay: var(--delay, 0ms);
-    }
-
-    .reveal.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-
-    .blur-text {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      row-gap: 0.1em;
-    }
-
-    .blur-word {
-      display: inline-block;
-      margin-right: 0.28em;
-      opacity: 0;
-      transform: translateY(50px);
-      filter: blur(10px);
-      transition:
-        opacity 0.7s ease,
-        transform 0.7s ease,
-        filter 0.7s ease;
-      transition-delay: calc(var(--word-index, 0) * 100ms);
-    }
-
-    .blur-text.is-visible .blur-word {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-
-    .headline-balance {
-      text-wrap: balance;
-      word-break: keep-all;
-      overflow-wrap: break-word;
-    }
-
-    .cap-card {
-      min-height: 360px;
-    }
-
-    .trust-marquee {
-      mask-image: linear-gradient(90deg, transparent 0%, #fff 10%, #fff 90%, transparent 100%);
-    }
-
-    @media (max-width: 767px) {
-      .cap-card {
-        min-height: 320px;
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--zxw-background);
+    --color-foreground: var(--zxw-foreground);
+    --color-card: var(--zxw-card);
+    --color-primary: var(--zxw-primary);
+    --color-muted: var(--zxw-muted);
+    --color-border: var(--zxw-border);
+    --radius-sm: var(--zxw-radius-sm);
+    --radius-md: var(--zxw-radius-md);
+    --radius-lg: var(--zxw-radius-lg);
+  }
+  @layer base {
+    body { background: var(--zxw-background); color: var(--zxw-foreground); }
+    td, th { word-break: break-all; word-break: auto-phrase; }
+    th { white-space: nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--zxw-background); }
+      .text-background { color: var(--zxw-background); }
+      .border-background { border-color: var(--zxw-background); }
+      .ring-background { --tw-ring-color: var(--zxw-background); }
+      .bg-foreground { background-color: var(--zxw-foreground); }
+      .text-foreground { color: var(--zxw-foreground); }
+      .border-foreground { border-color: var(--zxw-foreground); }
+      .ring-foreground { --tw-ring-color: var(--zxw-foreground); }
+      .bg-card { background-color: var(--zxw-card); }
+      .text-card { color: var(--zxw-card); }
+      .border-card { border-color: var(--zxw-card); }
+      .ring-card { --tw-ring-color: var(--zxw-card); }
+      .bg-primary { background-color: var(--zxw-primary); }
+      .text-primary { color: var(--zxw-primary); }
+      .border-primary { border-color: var(--zxw-primary); }
+      .ring-primary { --tw-ring-color: var(--zxw-primary); }
+      .bg-muted { background-color: var(--zxw-muted); }
+      .text-muted { color: var(--zxw-muted); }
+      .border-muted { border-color: var(--zxw-muted); }
+      .ring-muted { --tw-ring-color: var(--zxw-muted); }
+      .bg-border { background-color: var(--zxw-border); }
+      .text-border { color: var(--zxw-border); }
+      .border-border { border-color: var(--zxw-border); }
+      .ring-border { --tw-ring-color: var(--zxw-border); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
       }
-    }
-
-    /* ── AI atmosphere layer ── */
-    .ai-particles {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      background-image:
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 1px, transparent 1px),
-        radial-gradient(circle at 70% 65%, rgba(255,255,255,0.03) 1px, transparent 1px),
-        radial-gradient(circle at 45% 80%, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 80px 80px, 120px 120px, 100px 100px;
-    }
-    .ai-lines {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.12;
-      background:
-        linear-gradient(90deg, transparent 49.8%, rgba(255,255,255,0.06) 50%, transparent 50.2%) 0 0 / 240px 100%,
-        linear-gradient(0deg, transparent 49.8%, rgba(255,255,255,0.04) 50%, transparent 50.2%) 0 0 / 100% 200px;
-    }
-    @keyframes drift-particles {
-      0% { transform: translate(0, 0); }
-      50% { transform: translate(2px, 3px); }
-      100% { transform: translate(0, 0); }
-    }
-    .ai-particles {
-      animation: drift-particles 20s ease-in-out infinite;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      .reveal,
-      .blur-word,
-      .video-fade {
-        transition-duration: 0.01ms !important;
-        transition-delay: 0ms !important;
-        animation-duration: 0.01ms !important;
-      }
-    }
-  </style>
+    </style>
 </head>
 <body class="bg-black text-white font-body">
   <div class="ai-particles"></div>
@@ -264,22 +109,22 @@
 
       <div class="relative z-10 flex h-full flex-col">
         <nav class="fixed left-0 right-0 top-4 z-50 flex items-center justify-between px-8 lg:px-16">
-          <div class="liquid-glass flex h-12 min-w-[4.5rem] items-center justify-center rounded-full px-3">
+          <div class="flex h-12 min-w-[4.5rem] items-center justify-center rounded-full px-3 bg-black/40 backdrop-blur-sm border border-white/10">
             <span class="font-heading text-[1rem] italic tracking-[-0.12em] text-white">ZXW</span>
           </div>
 
-          <div class="liquid-glass hidden items-center gap-1.5 rounded-full px-1.5 py-1.5 md:flex">
+          <div class="hidden items-center gap-1.5 rounded-full px-1.5 py-1.5 md:flex bg-black/40 backdrop-blur-sm border border-white/10 nav-glass">
             <a href="#hero" class="rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:text-white">Vision</a>
             <a href="#capabilities" class="rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:text-white">Capabilities</a>
             <a href="#experience" class="rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:text-white">Experience</a>
-            <a href="#capabilities" class="rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:text-white">Contact</a>
-            <button class="ml-1 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-white/90">
+            <a href="#projects" class="rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:text-white">Projects</a>
+            <a href="#contact" class="ml-1 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-white/90">
               <span>Let's Connect</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M7 17L17 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
                 <path d="M7 7h10v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
-            </button>
+            </a>
           </div>
 
           <div class="h-12 w-12"></div>
@@ -311,20 +156,20 @@
           </p>
 
           <div class="reveal mt-6 flex flex-wrap items-center justify-center gap-6" style="--delay: 1100ms">
-            <button class="liquid-glass-strong inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-white">
+            <a href="#experience" class="liquid-glass-strong inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-white">
               <span>Explore My Work</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M7 17L17 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
                 <path d="M7 7h10v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
-            </button>
+            </a>
 
-            <button class="inline-flex items-center gap-2 text-sm font-medium text-white/90 transition hover:text-white">
+            <a href="#capabilities" class="inline-flex items-center gap-2 text-sm font-medium text-white/90 transition hover:text-white">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <polygon points="6 4 20 12 6 20 6 4"></polygon>
               </svg>
               <span>AI Capabilities</span>
-            </button>
+            </a>
           </div>
 
           <div class="reveal mt-8 flex flex-wrap items-stretch justify-center gap-4" style="--delay: 1300ms">
@@ -559,6 +404,84 @@
         </div>
       </div>
     </section>
+
+    <section id="projects" class="relative min-h-screen overflow-hidden bg-black">
+      <div class="relative z-10 flex min-h-screen flex-col px-8 pb-10 pt-24 md:px-16 lg:px-20">
+        <header class="mb-auto">
+          <div class="reveal mb-6 text-sm text-white/80" style="--delay: 150ms">// Projects · 项目</div>
+          <h2 class="reveal headline-balance font-heading text-6xl leading-[0.9] tracking-[-3px] text-white italic md:text-7xl lg:text-[6rem]" style="--delay: 250ms">
+            Projects
+          </h2>
+        </header>
+
+        <div class="mt-16">
+          <article class="reveal liquid-glass flex flex-col rounded-[1.25rem] p-8" style="--delay: 350ms; min-height: 460px;">
+            <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+              <div class="flex-1">
+                <div class="mb-2 font-heading text-[2.2rem] italic leading-none tracking-[-1px] text-white md:text-[2.6rem]">QuestMeet.ai</div>
+                <div class="text-[11px] font-medium uppercase tracking-[0.18em] text-white/44">AI Opportunity Network</div>
+                <div class="mt-1 text-[11px] font-light text-white/36">Open Source Project · Co-builder &amp; Contributor</div>
+                <div class="flex flex-wrap gap-1.5 mt-5">
+                  <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">AI</span>
+                  <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Open Source</span>
+                  <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Community</span>
+                  <span class="liquid-glass rounded-full px-3 py-1 text-[11px] whitespace-nowrap text-white/90">Ecosystem</span>
+                </div>
+              </div>
+              <div class="max-w-[46ch]">
+                <p class="text-sm font-light leading-snug text-white/82">
+                  QuestMeet.ai is an open-source initiative exploring the future of AI-native collaboration between professionals, builders, and businesses.
+                </p>
+                <p class="mt-3 text-sm font-light leading-snug text-white/82">
+                  As a co-creator, I contributed to shaping the project's vision, ecosystem development, and strategic direction, exploring new possibilities for AI-powered collaboration.
+                </p>
+                <a href="#" class="mt-5 inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-2.5 text-sm font-medium text-white transition hover:border-white/30 hover:text-white">
+                  <span>View Project</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 17L17 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M7 7h10v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="relative min-h-screen overflow-hidden bg-black">
+      <div class="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 pb-10 pt-24 text-center md:px-10 lg:px-16">
+        <div class="reveal mb-6 text-sm text-white/80" style="--delay: 150ms">// Contact</div>
+        <h2 class="reveal headline-balance font-heading text-6xl leading-[0.9] tracking-[-3px] text-white italic md:text-7xl lg:text-[6rem]" style="--delay: 250ms">
+          Let's Connect
+        </h2>
+        <p class="reveal mt-3 text-[13px] font-light leading-relaxed text-white/42 md:text-sm" style="--delay: 300ms">
+          AI Commerce · Brand Growth · Global Collaboration
+        </p>
+
+        <div class="reveal mt-12 liquid-glass max-w-[420px] rounded-[1.25rem] p-8" style="--delay: 450ms">
+          <a href="mailto:15501165382@163.com" class="text-lg font-medium text-white transition hover:text-white/80">
+            15501165382@163.com
+          </a>
+          <button id="copy-email-btn" class="mt-6 inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-2.5 text-sm font-medium text-white/80 transition hover:border-white/30 hover:text-white">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.6"></rect>
+              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6"></path>
+            </svg>
+            <span id="copy-email-text">Copy Email</span>
+          </button>
+          <div class="mt-5 border-t border-white/8 pt-5">
+            <a href="https://questmeet.ai" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-medium text-white/70 transition hover:text-white">
+              <span>QuestMeet.ai</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7 17L17 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M7 7h10v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script>
@@ -643,6 +566,7 @@
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
             }
           });
         },
@@ -659,6 +583,7 @@
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
             }
           });
         },
@@ -683,6 +608,266 @@
     document.querySelectorAll("[data-fading-video]").forEach(initFadingVideo);
     initRevealAnimations();
     initBlurText();
+
+    // ── smooth anchor scroll (native, compositor-thread) ──
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        var target = document.querySelector(targetId);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // ── copy email ──
+    const copyBtn = document.getElementById("copy-email-btn");
+    const copyText = document.getElementById("copy-email-text");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText("15501165382@163.com").then(() => {
+          copyText.textContent = "Email Copied";
+          copyBtn.classList.add("pointer-events-none");
+          setTimeout(() => {
+            copyText.textContent = "Copy Email";
+            copyBtn.classList.remove("pointer-events-none");
+          }, 2000);
+        }).catch(() => {});
+      });
+    }
   </script>
+
+    <style id="custom-styles">
+    html,
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: "Barlow", sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .font-heading {
+      font-family: "Instrument Serif", serif;
+    }
+
+    .font-body {
+      font-family: "Barlow", sans-serif;
+    }
+
+    .liquid-glass,
+    .liquid-glass-strong {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background: rgba(255, 255, 255, 0.01);
+      background-blend-mode: luminosity;
+    }
+
+    .liquid-glass {
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .liquid-glass-strong {
+      backdrop-filter: blur(50px);
+      -webkit-backdrop-filter: blur(50px);
+      box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    }
+
+    .liquid-glass::before,
+    .liquid-glass-strong::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.4px;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .liquid-glass::before {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.45) 0%,
+        rgba(255, 255, 255, 0.15) 20%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0) 60%,
+        rgba(255, 255, 255, 0.15) 80%,
+        rgba(255, 255, 255, 0.45) 100%
+      );
+    }
+
+    .liquid-glass-strong::before {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0.2) 20%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0) 60%,
+        rgba(255, 255, 255, 0.2) 80%,
+        rgba(255, 255, 255, 0.5) 100%
+      );
+    }
+
+    .video-fade {
+      opacity: 0;
+      transition: opacity 180ms linear;
+    }
+
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.08), transparent 34%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.44) 52%, rgba(0, 0, 0, 0.92) 100%);
+    }
+
+    .video-overlay-soft {
+      background:
+        radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.06), transparent 28%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.62) 50%, rgba(0, 0, 0, 0.9) 100%);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      filter: blur(10px);
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s ease,
+        filter 0.8s ease;
+      transition-delay: var(--delay, 0ms);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .blur-text {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 0.1em;
+    }
+
+    .blur-word {
+      display: inline-block;
+      margin-right: 0.28em;
+      opacity: 0;
+      transform: translateY(50px);
+      filter: blur(10px);
+      transition:
+        opacity 0.7s ease,
+        transform 0.7s ease,
+        filter 0.7s ease;
+      transition-delay: calc(var(--word-index, 0) * 100ms);
+    }
+
+    .blur-text.is-visible .blur-word {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .headline-balance {
+      text-wrap: balance;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    .cap-card {
+      min-height: 360px;
+    }
+
+    .nav-glass {
+      contain: layout style paint;
+    }
+
+    .trust-marquee {
+      mask-image: linear-gradient(90deg, transparent 0%, #fff 10%, #fff 90%, transparent 100%);
+    }
+
+    @media (max-width: 767px) {
+      .cap-card {
+        min-height: 320px;
+      }
+    }
+
+    .ai-particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 1px, transparent 1px),
+        radial-gradient(circle at 70% 65%, rgba(255,255,255,0.03) 1px, transparent 1px),
+        radial-gradient(circle at 45% 80%, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 80px 80px, 120px 120px, 100px 100px;
+      animation: drift-particles 20s ease-in-out infinite;
+    }
+    .ai-lines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.12;
+      background:
+        linear-gradient(90deg, transparent 49.8%, rgba(255,255,255,0.06) 50%, transparent 50.2%) 0 0 / 240px 100%,
+        linear-gradient(0deg, transparent 49.8%, rgba(255,255,255,0.04) 50%, transparent 50.2%) 0 0 / 100% 200px;
+    }
+    @keyframes drift-particles {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(2px, 3px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .reveal,
+      .blur-word,
+      .video-fade {
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+    @layer base {
+      @font-face {
+        font-family: 'Barlow';
+        font-style: normal;
+        font-weight: 300 600;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/barlow/v12/7cHpv4kjgoGqM7E_DMs5ynghnQ.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: 'Instrument Serif';
+        font-style: italic;
+        font-weight: 400;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/instrumentserif/v4/jizHRFtNs2ka5Ovh45sMzvJ2NWsA.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+    }
+    </style>
 </body>
 </html>
